@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    body {
+        height: 100vh;
+        overflow: hidden;
+        background-color: antiquewhite;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #dino {
+        height: 150px;
+        width: 150px;
+        
+        position: absolute;
+        bottom: 0;
+    }
+    .dino img {
+        height: 150px;
+        width: auto;
+    }
+
+    #obstacle {
+        height: 120px;
+        width: 120px;
+        
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        animation: move 2s infinite linear;
+    }
+    .obstacle img {
+        height: 150px;
+        width: auto;
+    }
+
+    @keyframes move {
+        0% { right: 0; }
+        100% { right: 100%; }
+    }
+
+    #dino.jump {
+        animation: jump 0.3s;
+    }
+      
+      @keyframes jump {
+        0% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-200px);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+      
+</style>
+</head>
+<body>
+    <div id="dino">
+        <img src="Trex.png" style="height: 150px;">
+    </div>
+    <div id="obstacle">
+        <img src="obs.png" style="height: 150px;">
+    </div>
+
+    <script>
+        var dino = document.getElementById('dino');
+
+        // Add event listener for keyup
+        document.body.onkeyup = function(e) {
+            if (e.keyCode == 38) {
+                jump();
+            }
+        }
+
+        // Add event listener for touchstart
+        document.body.ontouchstart = function(e) {
+            jump();
+        }
+
+        function jump() {
+            if (dino.classList != "jump") {
+                dino.classList.add("jump");
+
+                setTimeout(function() {
+                    dino.classList.remove("jump");
+                }, 300);
+            }
+        }
+
+        setInterval(function() {
+            var dinoTop = parseInt(window.getComputedStyle(dino).getPropertyValue('top'));
+            var obstacleLeft = parseInt(window.getComputedStyle(obstacle).getPropertyValue('left'));
+
+            if (obstacleLeft < 50 && obstacleLeft > 0 && dinoTop >= 150) {
+                alert("Game Over");
+            }
+        }, 10);
+    </script>
+</body>
+</html>
